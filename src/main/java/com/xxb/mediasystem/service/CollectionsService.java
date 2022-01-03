@@ -9,25 +9,19 @@ import com.xxb.mediasystem.mapper.CollectionsMapper;
 import com.xxb.mediasystem.mapper.UserMapper;
 import com.xxb.mediasystem.mapper.VideoMapper;
 import com.xxb.mediasystem.model.Collections;
-import com.xxb.mediasystem.model.Type;
 import com.xxb.mediasystem.model.Video;
+import com.xxb.mediasystem.sensitiveWords.SensitivewordFilter;
 import com.xxb.mediasystem.util.FileUtil;
 import com.xxb.mediasystem.util.PageHelperUtil;
 import com.xxb.mediasystem.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class CollectionsService {
@@ -67,10 +61,11 @@ public class CollectionsService {
         for(Collections collections:collectionsList){
             JSONObject jsonObject1 = new JSONObject();
             jsonObject1.put("id",collections.getId());
-            jsonObject1.put("name",collections.getName());
+            SensitivewordFilter filter = new SensitivewordFilter();
+            jsonObject1.put("name",filter.replaceSensitiveWord(collections.getName(),1,"*"));
             jsonObject1.put("picture",collections.getPicture());
             jsonObject1.put("videos",videoMapper.getVideoByCollectionId(collections.getId()).size());
-            jsonObject1.put("description",collections.getDescription());
+            jsonObject1.put("description",filter.replaceSensitiveWord(collections.getDescription(),1,"*"));
             jsonObject1.put("createdTime",collections.getCreatedTime());
             jsonObject1.put("publish",collections.getPublish());
             jsonObject1.put("author",userMapper.selectByPrimaryKey(collections.getAuthor()).getName());
@@ -181,10 +176,12 @@ public class CollectionsService {
         for(Collections collections:collectionsList){
             JSONObject jsonObject1 = new JSONObject();
             jsonObject1.put("id",collections.getId());
-            jsonObject1.put("name",collections.getName());
+//            jsonObject1.put("name",collections.getName());
+            SensitivewordFilter filter = new SensitivewordFilter();
+            jsonObject1.put("name",filter.replaceSensitiveWord(collections.getName(),1,"*"));
             jsonObject1.put("picture",collections.getPicture());
             jsonObject1.put("videos",collections.getVideos()==null?0:collections.getVideos());
-            jsonObject1.put("description",collections.getDescription());
+            jsonObject1.put("description",filter.replaceSensitiveWord(collections.getDescription(),1,"*"));
             jsonObject1.put("createdTime",collections.getCreatedTime());
             jsonObject1.put("author",userMapper.selectByPrimaryKey(collections.getAuthor()).getName());
             jsonArray.add(jsonObject1);
@@ -206,10 +203,11 @@ public class CollectionsService {
         for(Collections collections:collectionsList){
             JSONObject jsonObject1 = new JSONObject();
             jsonObject1.put("id",collections.getId());
-            jsonObject1.put("name",collections.getName());
+            SensitivewordFilter filter = new SensitivewordFilter();
+            jsonObject1.put("name",filter.replaceSensitiveWord(collections.getName(),1,"*"));
             jsonObject1.put("picture",collections.getPicture());
             jsonObject1.put("videos",collections.getVideos()==null?0:collections.getVideos());
-            jsonObject1.put("description",collections.getDescription());
+            jsonObject1.put("description",filter.replaceSensitiveWord(collections.getDescription(),1,"*"));
             jsonObject1.put("createdTime",collections.getCreatedTime());
             jsonObject1.put("author",userMapper.selectByPrimaryKey(collections.getAuthor()).getName());
             jsonArray.add(jsonObject1);
@@ -273,6 +271,8 @@ public class CollectionsService {
         for(Collections collections:collectionsList){
             JSONObject jsonObject1 = new JSONObject();
             jsonObject1.put("id",collections.getId());
+            SensitivewordFilter filter = new SensitivewordFilter();
+            //待审核的视频不进行敏感词过滤
             jsonObject1.put("name",collections.getName());
             jsonObject1.put("picture",collections.getPicture());
             jsonObject1.put("videos",collections.getVideos()==null?0:collections.getVideos());

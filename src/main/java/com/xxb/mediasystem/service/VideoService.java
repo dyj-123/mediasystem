@@ -1,6 +1,5 @@
 package com.xxb.mediasystem.service;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
@@ -8,14 +7,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xxb.mediasystem.mapper.*;
 import com.xxb.mediasystem.model.Collections;
-import com.xxb.mediasystem.model.PublicTag;
 import com.xxb.mediasystem.model.User;
 import com.xxb.mediasystem.model.Video;
+import com.xxb.mediasystem.sensitiveWords.SensitivewordFilter;
 import com.xxb.mediasystem.util.FileUtil;
 import com.xxb.mediasystem.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -120,9 +118,10 @@ public class VideoService {
         JSONArray jsonArray = new JSONArray();
         for(Video video:videoList){
             JSONObject jsonObject1 = new JSONObject();
+            SensitivewordFilter filter = new SensitivewordFilter();
             jsonObject1.put("id",video.getId());
-            jsonObject1.put("title",video.getTitle());
-            jsonObject1.put("description",video.getDescription());
+            jsonObject1.put("title",filter.replaceSensitiveWord(video.getTitle(),1,"*"));
+            jsonObject1.put("description",filter.replaceSensitiveWord(video.getDescription(),1,"*"));
             jsonObject1.put("picture",video.getPicture());
             jsonObject1.put("url",video.getUrl());
             jsonObject1.put("fileName",video.getFileName());
@@ -153,9 +152,10 @@ public class VideoService {
         JSONArray jsonArray = new JSONArray();
         for(Video video:videoList){
             JSONObject jsonObject1 = new JSONObject();
+            SensitivewordFilter filter = new SensitivewordFilter();
             jsonObject1.put("id",video.getId());
-            jsonObject1.put("title",video.getTitle());
-            jsonObject1.put("description",video.getDescription());
+            jsonObject1.put("title",filter.replaceSensitiveWord(video.getTitle(),1,"*"));
+            jsonObject1.put("description",filter.replaceSensitiveWord(video.getDescription(),1,"*"));
             jsonObject1.put("picture",video.getPicture());
             jsonObject1.put("url",video.getUrl());
             jsonObject1.put("fileName",video.getFileName());
@@ -260,9 +260,10 @@ public class VideoService {
         JSONArray jsonArray = new JSONArray();
         for(Video video:videoList){
             JSONObject jsonObject1 = new JSONObject();
+            SensitivewordFilter filter = new SensitivewordFilter();
             jsonObject1.put("id",video.getId());
-            jsonObject1.put("title",video.getTitle());
-            jsonObject1.put("description",video.getDescription());
+            jsonObject1.put("title",filter.replaceSensitiveWord(video.getTitle(),1,"*"));
+            jsonObject1.put("description",filter.replaceSensitiveWord(video.getDescription(),1,"*"));
             jsonObject1.put("picture",video.getPicture());
             jsonObject1.put("url",video.getUrl());
             jsonObject1.put("fileName",video.getFileName());
@@ -297,9 +298,10 @@ public class VideoService {
         JSONArray jsonArray = new JSONArray();
         for(Video video:videoList){
             JSONObject jsonObject1 = new JSONObject();
+            SensitivewordFilter filter = new SensitivewordFilter();
             jsonObject1.put("id",video.getId());
-            jsonObject1.put("title",video.getTitle());
-            jsonObject1.put("description",video.getDescription());
+            jsonObject1.put("title",filter.replaceSensitiveWord(video.getTitle(),1,"*"));
+            jsonObject1.put("description",filter.replaceSensitiveWord(video.getDescription(),1,"*"));
             jsonObject1.put("picture",video.getPicture());
             jsonObject1.put("url",video.getUrl());
             jsonObject1.put("fileName",video.getFileName());
@@ -329,9 +331,10 @@ public class VideoService {
         JSONArray jsonArray = new JSONArray();
         for(Video video:videoList){
             JSONObject jsonObject1 = new JSONObject();
+            SensitivewordFilter filter = new SensitivewordFilter();
             jsonObject1.put("id",video.getId());
-            jsonObject1.put("title",video.getTitle());
-            jsonObject1.put("description",video.getDescription());
+            jsonObject1.put("title",filter.replaceSensitiveWord(video.getTitle(),1,"*"));
+            jsonObject1.put("description",filter.replaceSensitiveWord(video.getDescription(),1,"*"));
             jsonObject1.put("picture",video.getPicture());
             jsonObject1.put("url",video.getUrl());
             jsonObject1.put("fileName",video.getFileName());
@@ -371,9 +374,10 @@ public class VideoService {
         JSONArray jsonArray = new JSONArray();
         for(Video video1:videoList){
             JSONObject jsonObject1 = new JSONObject();
-            jsonObject1.put("id",video1.getId());
-            jsonObject1.put("title",video1.getTitle());
-            jsonObject1.put("description",video1.getDescription());
+            SensitivewordFilter filter = new SensitivewordFilter();
+            jsonObject1.put("id",video.getId());
+            jsonObject1.put("title",filter.replaceSensitiveWord(video.getTitle(),1,"*"));
+            jsonObject1.put("description",filter.replaceSensitiveWord(video.getDescription(),1,"*"));
             jsonObject1.put("picture",video1.getPicture());
             jsonObject1.put("url",video1.getUrl());
             jsonObject1.put("fileName",video1.getFileName());
@@ -408,9 +412,10 @@ public class VideoService {
         JSONArray jsonArray = new JSONArray();
         for(Video video:videoList){
             JSONObject jsonObject1 = new JSONObject();
+            SensitivewordFilter filter = new SensitivewordFilter();
             jsonObject1.put("id",video.getId());
-            jsonObject1.put("title",video.getTitle());
-            jsonObject1.put("description",video.getDescription());
+            jsonObject1.put("title",filter.replaceSensitiveWord(video.getTitle(),1,"*"));
+            jsonObject1.put("description",filter.replaceSensitiveWord(video.getDescription(),1,"*"));
             jsonObject1.put("picture",video.getPicture());
             jsonObject1.put("url",video.getUrl());
             jsonObject1.put("fileName",video.getFileName());
@@ -437,9 +442,10 @@ public class VideoService {
         JSONArray jsonArray = new JSONArray();
         for(Video video:videoList){
             JSONObject jsonObject1 = new JSONObject();
+            SensitivewordFilter filter = new SensitivewordFilter();
             jsonObject1.put("id",video.getId());
-            jsonObject1.put("title",video.getTitle());
-            jsonObject1.put("description",video.getDescription());
+            jsonObject1.put("title",filter.replaceSensitiveWord(video.getTitle(),1,"*"));
+            jsonObject1.put("description",filter.replaceSensitiveWord(video.getDescription(),1,"*"));
             jsonObject1.put("picture",video.getPicture());
             jsonObject1.put("url",video.getUrl());
             jsonObject1.put("fileName",video.getFileName());
@@ -467,7 +473,9 @@ public class VideoService {
         JSONArray jsonArray = new JSONArray();
         for(Video video:videoList){
             JSONObject jsonObject1 = new JSONObject();
+            SensitivewordFilter filter = new SensitivewordFilter();
             jsonObject1.put("id",video.getId());
+            //待审核的视频不进行关键词过滤
             jsonObject1.put("title",video.getTitle());
             jsonObject1.put("description",video.getDescription());
             jsonObject1.put("picture",video.getPicture());
