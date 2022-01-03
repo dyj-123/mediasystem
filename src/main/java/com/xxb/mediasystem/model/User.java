@@ -3,7 +3,7 @@ package com.xxb.mediasystem.model;
 public class User {
     private Integer id;
 
-    private String type;
+    private Integer type;
 
     private String name;
 
@@ -19,12 +19,12 @@ public class User {
         this.id = id;
     }
 
-    public String getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public String getName() {

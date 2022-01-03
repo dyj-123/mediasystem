@@ -20,6 +20,10 @@ public class Video {
     private Integer publish;//是否发布共享
     private Integer tag;
     private Integer isdelete;
+    private Long views;
+    private Long collectionId;
+    private Integer sortId;
+
     public Long getId() {
         return id;
     }
@@ -122,5 +126,29 @@ public class Video {
 
     public void setIsdelete(Integer delete) {
         this.isdelete = delete;
+    }
+
+    public Long getViews() {
+        return views;
+    }
+
+    public void setViews(Long views) {
+        this.views = views;
+    }
+
+    public Long getCollectionId() {
+        return collectionId;
+    }
+
+    public void setCollectionId(Long collectionId) {
+        this.collectionId = collectionId;
+    }
+
+    public Integer getSortId() {
+        return sortId;
+    }
+
+    public void setSortId(Integer sortId) {
+        this.sortId = sortId;
     }
 }

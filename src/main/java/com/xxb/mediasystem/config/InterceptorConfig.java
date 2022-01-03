@@ -15,6 +15,7 @@ import java.util.List;
 public class InterceptorConfig implements WebMvcConfigurer {
 
 
+
     @Bean
     public AuthInterceptor authInterceptor() {
         return new AuthInterceptor();
@@ -27,6 +28,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
         patterns.add("/video/**");
         patterns.add("/login");
         patterns.add("/public/**");
+        patterns.add("/collections/getPublished");
+        patterns.add("/getVideoByCollectionId?");
         registry.addInterceptor(authInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns(patterns);
     }

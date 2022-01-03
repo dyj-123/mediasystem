@@ -35,8 +35,11 @@ public class TypeService {
     **/
     public JSONObject getTypeList(HttpServletRequest request){
         String token = request.getHeader("Authorization");
-        User user = userMapper.findUserByToken(token);
-        List<Type> typeList = typeMapper.getTypeList(user.getId());
+      //  User user = userMapper.findUserByToken(token);
+        String userId = request.getHeader("userId");
+        System.out.println(userId);
+        List<Type> typeList = typeMapper.getTypeList(Integer.valueOf(userId));
+
         JSONArray jsonArray = new JSONArray();
         for(Type type:typeList){
             JSONObject jsonObject1 = new JSONObject();

@@ -16,6 +16,8 @@ public class CrosConfig implements WebMvcConfigurer { //实现这个接口
                 .allowedMethods( "GET", "POST", "PUT", "OPTIONS", "DELETE")        //开放哪些Http方法，允许跨域访问
                 .allowCredentials(true)         //是否允许发送Cookie信息
                 .maxAge(3600)
-                .allowedHeaders("*");            //允许HTTP请求中的携带哪些Header信息
+                .allowedHeaders("*")
+                .exposedHeaders("userId")
+                ;            //允许HTTP请求中的携带哪些Header信息
     }
 }

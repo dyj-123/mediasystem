@@ -35,14 +35,14 @@ public class AuthInterceptor implements HandlerInterceptor {
                              HttpServletResponse response, Object handler) throws IOException {
         // 登陆接口不做拦截及解决跨域问题
         response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization,userId,Accept,X-Requested-With");
         response.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
 
         // TODO 暂时只做了一个很简单的TOKEN验证，只判断有无，不判断是否过期或者修改过某些内容，也没有吊销token的操作
         String token = request.getHeader(TOKEN_NAME);
-       // System.out.println(request.getRequestURL());
+        System.out.println(request.getRequestURL());
         //System.out.println("token"+token);
-        if(request.getMethod().equals("OPTIONS")||request.getRequestURI().equals("/v1/login")){
+        if(request.getMethod().equals("OPTIONS")||request.getRequestURI().equals("/v1/login")||request.getRequestURI().contains("/v1/getVideoByCollectionId")){
             return true;
         }
         if (token == null) {

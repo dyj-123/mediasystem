@@ -17,10 +17,11 @@ public interface VideoMapper {
     List<Video> getVideoByTitle(String title);
     Video getVideoById(Long videoId);
     List<Video> getVideoByType(Integer typeId);
-
     List<Video> getPersonalVideo(Integer userId);
-
     List<Video> getPesonalVideoByTitle(String title, Integer userId);
     List<Video> getPublishedVideo(Video video);
-
+    List<Video> getVideoByCollectionId(Long collectionId);
+    List<Video> getAllVideoByCollectionId(Long collectionId);
+    int setSort(Long videoId,Integer sortId);
+    List<Video> getAuditVideo();
 }

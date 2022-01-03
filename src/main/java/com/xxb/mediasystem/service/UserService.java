@@ -1,5 +1,7 @@
 package com.xxb.mediasystem.service;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import com.xxb.mediasystem.interceptor.UserContext;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -26,10 +29,6 @@ public class UserService {
 
     @Resource
     private UserMapper userMapper;
-
-
-
-
 
     public Result loginSSO(HttpServletRequest request, SsoQuery ssoQuery) {
         if (CommonUtil.isStrNull(ssoQuery.getCode()) && CommonUtil.isStrNull(ssoQuery.getUrl())) {
@@ -45,6 +44,7 @@ public class UserService {
                     jsonObject.put("identity",user.getType());
                     jsonObject.put("token",token);
                     jsonObject.put("name",user.getName());
+                    jsonObject.put("userId",user.getId());
 //                    TokenResponse response = new TokenResponse();
 //                    response.setIdentity(user.getType());
 //                    response.setToken(token);
@@ -88,14 +88,15 @@ public class UserService {
             // User user1 = AuthTool.getInfo(schoolCardId);
             User record = new User();
             record.setId(Integer.parseInt(schoolCardId));
-            record.setType("0");
+            record.setType(0);
             record.setName(userInfo.getString("name"));
             record.setToken(newtoken);
             //学院号
            // record.setCollegeId(colledgeMapper.selectByCollegeName(userInfo.getString("department")));
             userMapper.addUser(record);
         }else{
-            userMapper.editUser(newtoken,Integer.parseInt(schoolCardId));
+            existedUser.setToken(newtoken);
+            userMapper.editUser(existedUser);
         }
         User user1 = userMapper.selectByPrimaryKey(Integer.parseInt(schoolCardId));
         User record = new User();
@@ -110,10 +111,42 @@ public class UserService {
         jsonObject.put("identity",user1.getType());
         jsonObject.put("token",newtoken);
         jsonObject.put("name",user1.getName());
-
+        jsonObject.put("userId",Integer.parseInt(schoolCardId));
         //发送至多赞数和对应的项目名称
         return Result.build(200,"成功",jsonObject);
     }
 
+    public JSONObject getAllUsers(Integer curPage,Integer pageSize){
+        List<User> userList = userMapper.getAllUsers();
+        JSONArray jsonArray= JSONArray.parseArray(JSON.toJSONString(userList));
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("userList",jsonArray);
+        jsonObject.put("total",jsonArray.size());
+        return jsonObject;
 
+
+    }
+
+    public JSONObject getAllUsersByType(Integer type, Integer curPage, Integer pageSize) {
+        List<User> userList = userMapper.getUsersByType(type);
+        JSONArray jsonArray= JSONArray.parseArray(JSON.toJSONString(userList));
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("userList",jsonArray);
+        jsonObject.put("total",jsonArray.size());
+        return jsonObject;
+    }
+
+    public  int editUserType(Integer userId,Integer type){
+        User user = userMapper.selectByPrimaryKey(userId);
+        user.setType(type);
+        return userMapper.editUser(user);
+
+    }
+
+    public Result getIdentity(HttpServletRequest request) {
+        String userId = request.getHeader("userId");
+        User user = userMapper.selectByPrimaryKey(Integer.valueOf(userId));
+        return Result.build(200,"",user.getType());
+
+    }
 }

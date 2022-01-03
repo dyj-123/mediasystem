@@ -24,6 +24,8 @@ public class TypeController {
         return Result.build(200,"",typeService.getTypeList(request));
     }
 
+
+
     /**
     *@描述 添加分类
     *@创建人 dyj
@@ -32,10 +34,12 @@ public class TypeController {
     @GetMapping("/addType")
     public Result addType(@RequestParam("typeName")String typeName, HttpServletRequest request){
         String token = request.getHeader("Authorization");
-        User user = userMapper.findUserByToken(token);
+        String userId = request.getHeader("userId");
+    //    User user = userMapper.findUserByToken(token);
+
         Type type = new Type();
         type.setType(typeName);
-        type.setAuthor(user.getId());
+        type.setAuthor(Integer.valueOf(userId));
         if(typeService.addType(type)==1){
             return Result.build(200,"添加成功");
         }else{

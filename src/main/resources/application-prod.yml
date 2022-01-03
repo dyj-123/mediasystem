@@ -10,6 +10,19 @@ spring:
     password: Iamdtcdzt123@
     url: jdbc:mysql://localhost:3306/mediasystem?serverTimezone=GMT
     driver-class-name: com.mysql.cj.jdbc.Driver
+#    username: root
+#    password: Xxbmedia123@
+#    url: jdbc:mysql://10.10.22.106:3306/video?serverTimezone=GMT&useSSL=false
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: localhost
+    port: 6379
+    timeout: 1000
+    jedis:
+      pool:
+        min-idle: 5
+        max-idle: 10
+        max-wait: -1
   session:
     jdbc:
       initialize-schema: embedded
@@ -17,6 +30,7 @@ spring:
       table-name: SPRING_SESSION
     timeout: 1
     store-type: jdbc
+
 
 logging:
   level:
@@ -30,6 +44,7 @@ file:
     urlpath: /video/**
     mdImageDir: /video/assets
     mdVideoDir: /video
+    serverUrl: http://127.0.0.1:8081/v1/video/assets
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml

@@ -29,6 +29,7 @@ file:
     urlpath: /video/**
     mdImageDir: /video/assets
     mdVideoDir: /video
+    serverUrl: http://v.shu.edu.cn
 
 
 

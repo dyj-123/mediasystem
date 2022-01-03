@@ -8,6 +8,6 @@ import java.util.List;
 @Mapper
 public interface PublicTagMapper {
     List<PublicTag> getTagList();
-    PublicTag getTagById(Integer tagId);
+    String getTagById(Integer tagId);
 
 }

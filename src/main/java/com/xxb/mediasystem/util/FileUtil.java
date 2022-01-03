@@ -2,9 +2,10 @@ package com.xxb.mediasystem.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -42,12 +43,14 @@ public class FileUtil {
     /**
      * 将文件名解析成文件的上传路径
      */
+
     public static File upload(MultipartFile file, String filePath) {
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmssS");
         System.out.println(file);
         String name = getFileNameNoEx(file.getOriginalFilename());
         String suffix = getExtensionName(file.getOriginalFilename());
+
         String nowStr = "-" + format.format(date);
         try {
             if(StringUtil.checkcountname(name)){//如果上传的文件名包含中文
@@ -57,6 +60,7 @@ public class FileUtil {
             String path = filePath+ fileName;
             // getCanonicalFile 可解析正确各种路径
             File dest = new File(path).getCanonicalFile();
+
             System.out.println(path);
             // 检测是否存在目录
             if (!dest.getParentFile().exists()) {
@@ -66,12 +70,20 @@ public class FileUtil {
             }
             // 文件写入
             file.transferTo(dest);
-            return dest;
+            if(suffix.equals("avi")){
+                path = filePath+ name + nowStr + ".mp4";
+                File target = new File(path).getCanonicalFile();
+                transferUtil.aviToMp4(dest,target);
+                return target;
+            }else{
+                return dest;
+            }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
         return null;
     }
+
 
 
     /**
@@ -90,6 +102,36 @@ public class FileUtil {
         } else {
             System.out.println("===============删除失败==============");
             return false;
+        }
+    }
+
+    public static File multipartFileToFile(MultipartFile file) throws Exception {
+
+        File toFile = null;
+        if (file.equals("") || file.getSize() <= 0) {
+            file = null;
+        } else {
+            InputStream ins = null;
+            ins = file.getInputStream();
+            toFile = new File(file.getOriginalFilename());
+            inputStreamToFile(ins, toFile);
+            ins.close();
+        }
+        return toFile;
+    }
+    //获取流文件
+    private static void inputStreamToFile(InputStream ins, File file) {
+        try {
+            OutputStream os = new FileOutputStream(file);
+            int bytesRead = 0;
+            byte[] buffer = new byte[8192];
+            while ((bytesRead = ins.read(buffer, 0, 8192)) != -1) {
+                os.write(buffer, 0, bytesRead);
+            }
+            os.close();
+            ins.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
